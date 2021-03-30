@@ -1,0 +1,30 @@
+person(1,'Иванов',address(city('Москва'),street('Кремль'),building(1),flat(1))).
+person(2,'Петров',address(city('Санкт-Петербург'),street('Невский проспект'),building(1),flat(1))).
+person(3,'Иванов',address(city('Новосибирск'),street('Ленина'),building(1),flat(1))).
+person(4,'Сидоров',address(city('Москва'),street('Тверская'),building(2),flat(3))).
+phone(1,'1111111').
+phone(1,'2222222').
+phone(2,'3333333').
+phone(3,'4444444').
+phone(4,'5555555').
+car(1,carprop(carname('BMW'),color('Black'),cost(4500000))).
+car(1,carprop(carname('Mazda'),color('Red'),cost(2500000))).
+car(2,carprop(carname('Mercedes'),color('White'),cost(5500000))).
+car(3,carprop(carname('Audi'),color('Red'),cost(3000000))).
+car(4,carprop(carname('Lexus'),color('Red'),cost(4000000))).
+car(4,carprop(carname('Lexus'),color('Blue'),cost(3000000))).
+bank(1,bankprop(bank('Sber'),amount(1),amount_sum(1000000))).
+bank(1,bankprop(bank('VTB'),amount(1),amount_sum(3000000))).
+bank(2,bankprop(bank('Sber'),amount(1),amount_sum(80000000))).
+bank(3,bankprop(bank('Tinkoff'),amount(1),amount_sum(5000000))).
+bank(4,bankprop(bank('Tinkoff'),amount(1),amount_sum(7000000))).
+
+byphoneall(N,P,C,CC) :- phone(PID,P), person(PID,N,_), car(PID,carprop(carname(C),_,cost(CC))).
+byphonecar(P,C) :- phone(_,P), byphoneall(_,P,C,_).
+bynamecity(N,C,S,B,P) :- person(PID,N,address(city(C),street(S),_,_)), bank(PID,bankprop(bank(B),_,_)), phone(PID,P).
+
+
+
+?-byphoneall(NAME,'2222222',CAR,COST).
+?-byphonecar('1111111',CAR).
+?-bynamecity('Иванов','Новосибирск',STREET,BANK,PHONE).
